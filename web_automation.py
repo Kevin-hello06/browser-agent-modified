@@ -657,6 +657,73 @@ User wants to scroll: "{description}"
 
         return f"AI-strategy scroll completed using method: {strategy.method}. Results: {results}. Check screenshots for verification."
 
+    @xray
+    def simple_infinite_scroll(self, max_scrolls: int = 20) -> str:
+        """Scroll to the bottom of a long page by repeatedly scrolling down.
+        Simple method without AI.
+
+        Args:
+            max_scrolls: Maximum number of scroll attempts to avoid infinite loops
+
+        Returns:
+            Confirmation message
+        """
+        if not self.page:
+            return "Browser not open"
+
+        last_height = self.page.evaluate("document.body.scrollHeight")
+        scrolls = 0
+
+        while scrolls < max_scrolls:
+            self.page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
+            import time
+            time.sleep(1.5)  # Wait for loading
+
+            new_height = self.page.evaluate("document.body.scrollHeight")
+            if new_height == last_height:
+                break  # Reached bottom
+
+            last_height = new_height
+            scrolls += 1
+
+        return f"Scrolled to bottom of page in {scrolls} scrolls"
+    
+
+    @xray
+    def auto_accept_cookies(self) -> str:
+        """Automatically accept common cookie banners."""
+        if not self.page:
+            return "Browser not open"
+
+        selectors = [
+            "button:has-text('Accept')",
+            "button:has-text('I Agree')",
+            "button:has-text('Agree')",
+            "button:has-text('OK')",
+            "button:has-text('Got it')",
+        ]
+
+        for s in selectors:
+            if self.page.locator(s).count() > 0:
+                self.page.click(s)
+                return f"Cookie banner dismissed using selector '{s}'"
+
+        return "No cookie banner detected"
+    
+    @xray
+    def save_page_text(self, filename: str = "page_text.txt") -> str:
+        """Save visible text from the page to a local file."""
+        if not self.page:
+            return "Browser not open"
+
+        text = self.page.inner_text("body")
+
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write(text)
+
+        return f"Saved page text to {filename}"
+        
+
     def wait_for_manual_login(self, site_name: str = "the website") -> str:
         """Pause automation and wait for user to login manually.
 
