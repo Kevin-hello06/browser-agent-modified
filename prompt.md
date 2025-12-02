@@ -81,6 +81,22 @@ When something fails:
 - Always close browser when done
 - Return clear summaries of what was accomplished
 
+### Infinite Scrolling
+- Use 'simple_infinite_scroll' when the user asks for:
+- "scroll all the way down"
+- "load more results"
+- "show more posts / products / articles"
+- "getr all items from this page"
+- "scroll until the end"
+
+### Cookie Handling
+- Automatically detect and dismiss cookie banners using `auto_accept_cookies`.
+- Run this when the page first loads or when a cookie popup blocks interaction.
+
+### Saving Page Text
+- Use `save_page_text` when the user asks to save, export, copy, store, or download the page’s visible text.
+- Return a confirmation message after saving.
+
 ## Common Workflows
 
 ### Login Flow
