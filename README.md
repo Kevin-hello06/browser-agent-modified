@@ -160,6 +160,24 @@ def scroll_down(self) -> str:
 
 The agent automatically uses new methods based on natural language commands.
 
+## Additional Tools
+
+### Automatic Cookie Acceptance
+The agent includes `auto_accept_cookies`, which automatically detects and dismisses common cookie banners  
+("Accept", "I Agree", "OK", etc.).  
+This helps automation continue without interruptions on modern websites.
+
+### Save Page Text
+Use `save_page_text` to save all visible text from the current page into a local file.  
+Useful for scraping, exporting article content, debugging, or storing page data for later processing.
+
+### Simple Infinite Scroll
+`s‍imple_infinite_scroll` provides a lightweight way to scroll to the bottom of long or dynamic pages  
+(news feeds, product lists).  
+It repeatedly scrolls until no new content loads, without using AI.
+
+
+
 ## Chrome Profile Support
 
 By default, the agent uses your Chrome profile data (cookies, sessions, logins). This means:
